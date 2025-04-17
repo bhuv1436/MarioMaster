@@ -113,7 +113,7 @@ const useGameState = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     }
     
     // Check if player fell out of the world
-    if (player.state.y > canvas.height) {
+    if (player.state.y > canvasRef.current?.height || player.state.y > 600) {
       handlePlayerDeath();
     }
   }, [gameState.status, gameState.level]);
