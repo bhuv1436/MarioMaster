@@ -98,10 +98,9 @@ class Level {
       </svg>
     `;
     
-    // Convert SVG to data URL
-    const svgBlob = new Blob([cloudSvg], { type: 'image/svg+xml' });
-    const url = URL.createObjectURL(svgBlob);
-    bgImage.src = url;
+    // Use a data URL directly instead of Blob for better compatibility
+    const encodedSvg = encodeURIComponent(cloudSvg);
+    bgImage.src = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
     this.images['background'] = bgImage;
     
     // Load platform images
@@ -123,9 +122,8 @@ class Level {
         <rect x="5" y="55" width="50" height="10" fill="#005500" />
       </svg>
     `;
-    const pipeSvgBlob = new Blob([pipeSvg], { type: 'image/svg+xml' });
-    const pipeUrl = URL.createObjectURL(pipeSvgBlob);
-    pipeImage.src = pipeUrl;
+    const encodedPipeSvg = encodeURIComponent(pipeSvg);
+    pipeImage.src = `data:image/svg+xml;charset=utf-8,${encodedPipeSvg}`;
     this.images['pipe'] = pipeImage;
     
     // Add question block texture
@@ -137,9 +135,8 @@ class Level {
         <text x="15" y="28" font-size="24" font-weight="bold" fill="#000000">?</text>
       </svg>
     `;
-    const questionSvgBlob = new Blob([questionSvg], { type: 'image/svg+xml' });
-    const questionUrl = URL.createObjectURL(questionSvgBlob);
-    questionImage.src = questionUrl;
+    const encodedQuestionSvg = encodeURIComponent(questionSvg);
+    questionImage.src = `data:image/svg+xml;charset=utf-8,${encodedQuestionSvg}`;
     this.images['question'] = questionImage;
   }
   
