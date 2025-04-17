@@ -108,8 +108,11 @@ class Platform {
         break;
         
       case 'brick':
-        // If Mario is big, bricks can be broken
-        if (true) { // We'll replace this condition with a check for Mario's size
+        // Get a reference to the player to check size
+        const playerSize = window.playerSize || 'small'; // Default to small if not available
+        
+        // If Mario is big, bricks can be broken (or they have items)
+        if (playerSize === 'big' && !block.containsItem) {
           // Mark brick as broken
           this.platforms[blockIndex] = {
             ...block,
@@ -118,6 +121,25 @@ class Platform {
           };
           
           // Could add brick particles/debris animation here
+        } else if (block.containsItem) {
+          // Brick has an item, release it like question block
+          this.platforms[blockIndex] = {
+            ...block,
+            hit: true,
+            hitAnimation: 0.2
+          };
+          
+          // Add the contained item
+          this.releasedItems.push({
+            type: block.containsItem,
+            x: block.x + block.width / 2 - 15, // Center item on block
+            y: block.y - 40, // Position above block
+            velocityY: -200, // Initial upward velocity
+            active: true
+          });
+          
+          result.itemReleased = true;
+          result.itemType = block.containsItem;
         } else {
           // Small Mario just bumps the brick
           this.platforms[blockIndex] = {
@@ -146,13 +168,13 @@ class Platform {
         };
       }
       
-      // Remove broken bricks that have finished their animation
+      // Style broken bricks differently but keep them solid (don't remove them)
+      // In the original Mario game, broken brick pieces fly off but the brick disappears
+      // However, for our game, we'll keep the brick to allow standing on it
       if (platform.broken && platform.hitAnimation === 0) {
         return {
           ...platform,
-          // Make broken bricks invisible but keep their collision data
-          width: 0,
-          height: 0
+          // We're not changing width/height so bricks remain solid for collision
         };
       }
       
@@ -194,8 +216,7 @@ class Platform {
   render(cameraOffsetX: number) {
     // First render the platforms
     this.platforms.forEach(platform => {
-      // Skip rendering broken blocks that have finished animating
-      if (platform.broken && platform.hitAnimation === 0) return;
+      // Always render all platforms, even broken ones, so Mario can stand on them
       
       const { x, y, width, height, type, hit, hitAnimation } = platform;
       
@@ -244,7 +265,24 @@ class Platform {
             this.ctx.fillStyle = '#8B4513'; // Brown
             break;
           case 'brick':
-            this.ctx.fillStyle = hit ? '#A0522D' : '#B22222'; // Darker when hit
+            if (platform.broken) {
+              // Cracked brick appearance for broken bricks
+              this.ctx.fillStyle = '#8B4513'; // Brown
+              this.ctx.fillRect(screenX, renderY, width, height);
+              
+              // Draw crack pattern
+              this.ctx.strokeStyle = '#333';
+              this.ctx.lineWidth = 1;
+              this.ctx.beginPath();
+              this.ctx.moveTo(screenX + width/2, renderY);
+              this.ctx.lineTo(screenX + width/2, renderY + height);
+              this.ctx.moveTo(screenX, renderY + height/2);
+              this.ctx.lineTo(screenX + width, renderY + height/2);
+              this.ctx.stroke();
+              return; // Skip the normal drawing
+            } else {
+              this.ctx.fillStyle = hit ? '#A0522D' : '#B22222'; // Darker when hit
+            }
             break;
           case 'question':
             this.ctx.fillStyle = hit ? '#CD853F' : '#FFD700'; // Brown when hit, gold otherwise

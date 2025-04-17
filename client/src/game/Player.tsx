@@ -82,6 +82,9 @@ class Player {
       isSkidding: false
     };
     
+    // Initialize global player size property for other components to use
+    (window as any).playerSize = 'small';
+    
     // Load sprite image
     this.loadSprite();
   }
@@ -352,8 +355,16 @@ class Player {
     this.state.frame = 0;
     this.state.animationTimer = 0;
     
+    // Reset size only when starting from the beginning
+    // For level restart after death, we should reset to small
+    if (startX === 50) { // Starting position check
+      this.state.size = 'small';
+      this.state.height = 40;
+      // Update global player size
+      (window as any).playerSize = 'small';
+    }
+    
     // Reset power-up state
-    // Note: We don't reset size because Mario should stay big if powered up
     this.state.powerup = 'none';
     this.state.isInvincible = true; // Brief invincibility after reset
     this.state.invincibilityTimer = 3.0; // 3 seconds of invincibility
@@ -372,6 +383,9 @@ class Player {
       this.state.height = 80; // Double height for big Mario
       // Adjust y position to account for height increase
       this.state.y -= 40;
+      
+      // Set global size property for other components to check
+      (window as any).playerSize = 'big';
     }
   }
   
@@ -394,6 +408,10 @@ class Player {
       this.state.height = 40;
       this.state.isInvincible = true;
       this.state.invincibilityTimer = 2.0; // Brief invincibility
+      
+      // Update global size property
+      (window as any).playerSize = 'small';
+      
       return false; // Didn't die
     } else {
       // Small Mario dies
