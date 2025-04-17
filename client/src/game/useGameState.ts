@@ -6,6 +6,7 @@ import Platform from "./Platform";
 import Collectible from "./Collectible";
 import useCollision from "./useCollision";
 import { levels } from "./levels";
+import { useAudio } from "../lib/stores/useAudio";
 
 interface GameState {
   status: "ready" | "playing" | "game-over" | "win";
@@ -36,6 +37,7 @@ const useGameState = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
   const platformRef = useRef<Platform | null>(null);
   const collectibleRef = useRef<Collectible | null>(null);
   const controlsRef = useRef<Controls>({ left: false, right: false, jump: false });
+  const audioRef = useRef(useAudio.getState());
   
   const { checkPlayerPlatformCollision, checkPlayerEnemyCollision, checkPlayerCollectibleCollision } = useCollision();
   
@@ -150,6 +152,58 @@ const useGameState = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       } else if (platformCollision.fromBottom) {
         player.state.y = platformCollision.y + platformCollision.height;
         player.state.velocity.y = 0;
+        
+        // Mario hit a block from below - check if it's a question block or brick
+        const hitBlock = platform.platforms.find(p => p.id === platformCollision.id);
+        if (hitBlock && (hitBlock.type === 'question' || hitBlock.type === 'brick')) {
+          // Hit the block and check if it releases an item
+          const hitResult = platform.hitBlock(hitBlock.id);
+          
+          // Handle item release
+          if (hitResult.itemReleased) {
+            if (hitResult.itemType === 'coin') {
+              // Collect coin immediately
+              setGameState(prev => ({
+                ...prev,
+                score: prev.score + 50,
+                coins: prev.coins + 1
+              }));
+              
+              // Play coin sound
+              if (audioRef.current?.successSound) {
+                audioRef.current.playSuccess();
+              }
+            } else if (hitResult.itemType === 'mushroom' && player.state.size === 'small') {
+              // Power up the player
+              player.powerUp();
+              
+              // Play power-up sound
+              if (audioRef.current?.successSound) {
+                audioRef.current.playSuccess();
+              }
+              
+              // Add score
+              setGameState(prev => ({
+                ...prev,
+                score: prev.score + 200
+              }));
+            } else if (hitResult.itemType === 'star') {
+              // Give player star power
+              player.activateStarPower();
+              
+              // Play power-up sound
+              if (audioRef.current?.successSound) {
+                audioRef.current.playSuccess();
+              }
+              
+              // Add score
+              setGameState(prev => ({
+                ...prev,
+                score: prev.score + 500
+              }));
+            }
+          }
+        }
       } else if (platformCollision.fromLeft) {
         player.state.x = platformCollision.x - player.state.width;
         player.state.velocity.x = 0;

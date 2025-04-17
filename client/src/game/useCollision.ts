@@ -12,6 +12,7 @@ interface CollisionResult {
   y: number;
   width: number;
   height: number;
+  id?: string; // ID of the platform that was hit
 }
 
 interface EnemyCollision {
@@ -99,7 +100,8 @@ const useCollision = () => {
           x: platform.x,
           y: platform.y,
           width: platform.width,
-          height: platform.height
+          height: platform.height,
+          id: platform.id
         };
       }
     }
