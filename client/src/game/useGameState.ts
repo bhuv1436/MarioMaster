@@ -79,15 +79,19 @@ const useGameState = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     const player = playerRef.current;
     const level = levelRef.current;
     const enemy = enemyRef.current;
+    const platform = platformRef.current;
     const collectible = collectibleRef.current;
     
-    if (!player || !level || !enemy || !collectible) return;
+    if (!player || !level || !enemy || !platform || !collectible) return;
     
     // Update player
     player.update(deltaTime, controlsRef.current, 600); // gravity = 600
     
     // Update enemy
     enemy.update(deltaTime);
+    
+    // Update platforms and their animations
+    platform.update(deltaTime);
     
     // Update collectibles
     collectible.update(deltaTime);

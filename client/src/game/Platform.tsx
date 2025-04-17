@@ -375,7 +375,19 @@ class Platform {
   }
   
   reset(initialPlatforms: PlatformData[]) {
-    this.platforms = [...initialPlatforms];
+    // Reset platforms to their initial state
+    this.platforms = initialPlatforms.map(platform => ({
+      ...platform,
+      hit: false,
+      hitAnimation: 0,
+      broken: false
+    }));
+    
+    // Clear any released items
+    this.releasedItems = [];
+    
+    // Reset animation timers
+    this.questionBlockAnimation = 0;
   }
 }
 

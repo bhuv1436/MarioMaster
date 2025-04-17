@@ -13,9 +13,11 @@ export const levels: LevelData[] = [
       { id: "platform2", x: 450, y: 400, width: 100, height: 20, type: "brick" },
       { id: "platform3", x: 600, y: 350, width: 100, height: 20, type: "brick" },
       
-      // Question blocks
-      { id: "question1", x: 350, y: 350, width: 40, height: 40, type: "question" },
-      { id: "question2", x: 500, y: 300, width: 40, height: 40, type: "question" },
+      // Question blocks with items
+      { id: "question1", x: 350, y: 350, width: 40, height: 40, type: "question", containsItem: "coin" },
+      { id: "question2", x: 500, y: 300, width: 40, height: 40, type: "question", containsItem: "mushroom" },
+      { id: "question3", x: 550, y: 300, width: 40, height: 40, type: "question", containsItem: "coin" },
+      { id: "question4", x: 600, y: 300, width: 40, height: 40, type: "question", containsItem: "star" },
       
       // Pipes
       { id: "pipe1", x: 900, y: 480, width: 60, height: 70, type: "pipe" },
@@ -27,6 +29,15 @@ export const levels: LevelData[] = [
       { id: "platform6", x: 1500, y: 400, width: 150, height: 20, type: "brick" },
       { id: "platform7", x: 1800, y: 450, width: 150, height: 20, type: "brick" },
       { id: "platform8", x: 2000, y: 400, width: 150, height: 20, type: "brick" },
+      
+      // Breakable brick blocks
+      { id: "brick1", x: 400, y: 350, width: 40, height: 40, type: "brick", containsItem: "coin" },
+      { id: "brick2", x: 450, y: 350, width: 40, height: 40, type: "brick" },
+      { id: "brick3", x: 500, y: 350, width: 40, height: 40, type: "brick" },
+      
+      { id: "brick4", x: 1100, y: 300, width: 40, height: 40, type: "brick", containsItem: "coin" },
+      { id: "brick5", x: 1150, y: 300, width: 40, height: 40, type: "brick", containsItem: "coin" },
+      { id: "brick6", x: 1200, y: 300, width: 40, height: 40, type: "brick" },
     ],
     enemies: [
       // Goombas
@@ -137,13 +148,26 @@ export const levels: LevelData[] = [
       { id: "float3", x: 1500, y: 300, width: 150, height: 20, type: "brick" },
       { id: "float4", x: 1800, y: 350, width: 150, height: 20, type: "brick" },
       
-      // Question blocks
-      { id: "q1", x: 750, y: 300, width: 40, height: 40, type: "question" },
-      { id: "q2", x: 1250, y: 250, width: 40, height: 40, type: "question" },
+      // Question blocks with items
+      { id: "q1", x: 750, y: 300, width: 40, height: 40, type: "question", containsItem: "coin" },
+      { id: "q2", x: 1250, y: 250, width: 40, height: 40, type: "question", containsItem: "mushroom" },
+      { id: "q3", x: 1550, y: 200, width: 40, height: 40, type: "question", containsItem: "star" },
+      { id: "q4", x: 1600, y: 200, width: 40, height: 40, type: "question", containsItem: "coin" },
       
       // Pipes
       { id: "pipe1", x: 1400, y: 480, width: 60, height: 70, type: "pipe" },
       { id: "pipe2", x: 2300, y: 480, width: 60, height: 70, type: "pipe" },
+      
+      // Breakable brick blocks
+      { id: "brick1", x: 800, y: 300, width: 40, height: 40, type: "brick" },
+      { id: "brick2", x: 850, y: 300, width: 40, height: 40, type: "brick", containsItem: "coin" },
+      
+      { id: "brick3", x: 1300, y: 250, width: 40, height: 40, type: "brick" },
+      { id: "brick4", x: 1350, y: 250, width: 40, height: 40, type: "brick", containsItem: "coin" },
+      
+      { id: "brick5", x: 1850, y: 250, width: 40, height: 40, type: "brick" },
+      { id: "brick6", x: 1900, y: 250, width: 40, height: 40, type: "brick", containsItem: "coin" },
+      { id: "brick7", x: 1950, y: 250, width: 40, height: 40, type: "brick" },
     ],
     enemies: [
       // Ground enemies
