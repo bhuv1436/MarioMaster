@@ -20,6 +20,11 @@ export interface PlatformData {
   width: number;
   height: number;
   type: 'ground' | 'brick' | 'question' | 'pipe';
+  // Additional properties for interactive platforms
+  hit?: boolean; // Whether the block has been hit
+  hitAnimation?: number; // Animation timer for block hit
+  containsItem?: 'coin' | 'mushroom' | 'star' | 'fireflower'; // What's inside the block
+  broken?: boolean; // For breakable bricks
 }
 
 export interface EnemyData {
