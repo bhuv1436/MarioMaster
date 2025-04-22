@@ -5,6 +5,8 @@ import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import { fileURLToPath } from "url";
 import glsl from "vite-plugin-glsl";
 
+// GitHub Pages base path
+const basePath = "/MarioMaster/";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
