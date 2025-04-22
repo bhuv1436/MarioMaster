@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Super Mario Platformer</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // This script helps handle routing without a server
+      (function() {
+        // No server-side rendering for GitHub Pages
+        window.SERVER_DATA = {}; 
+        
+        // Disable any server-dependent features
+        window.IS_STATIC_DEPLOYMENT = true;
+      })();
+    </script>
+    <script type="module" src="./src/main.tsx"></script>
+  </body>
+</html>
